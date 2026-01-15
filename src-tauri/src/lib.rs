@@ -61,6 +61,11 @@ fn set_status_icon_visibility(app: tauri::AppHandle, visible: bool) -> Result<()
     Ok(())
 }
 
+#[tauri::command]
+fn quit_app(app: tauri::AppHandle) {
+    app.exit(0);
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -88,6 +93,7 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             greet,
+            quit_app,
             set_dock_icon_visibility,
             set_status_icon_visibility
         ])

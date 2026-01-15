@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { isTauri } from '@tauri-apps/api/core';
+import { invoke, isTauri } from '@tauri-apps/api/core';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import './App.css';
 import Header from './components/Header';
@@ -117,8 +117,11 @@ function App() {
     let unlisten: (() => void) | null = null;
 
     window.onCloseRequested((event) => {
-      if (closeOnExitRef.current) return;
       event.preventDefault();
+      if (closeOnExitRef.current) {
+        void invoke('quit_app');
+        return;
+      }
       window.hide().catch(() => {});
     }).then((remove) => {
       unlisten = remove;

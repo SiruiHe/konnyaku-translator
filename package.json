@@ -2,6 +2,7 @@
   "name": "konnyaku-translator",
   "private": true,
   "version": "0.1.0",
+  "author": "Sirui He <hesirui00@outlook.com> (NUS)",
   "type": "module",
   "scripts": {
     "dev": "vite",

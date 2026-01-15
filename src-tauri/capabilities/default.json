@@ -1,0 +1,30 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "core:default",
+    "opener:default",
+    "websocket:default",
+    "window-state:default",
+    "global-shortcut:default",
+    "autostart:default",
+    "store:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        "https://*",
+        "http://*"
+      ]
+    }
+  ],
+  "remote": {
+    "urls": [
+      "https://generativelanguage.googleapis.com/*",
+      "https://api.openai.com/*"
+    ]
+  }
+}

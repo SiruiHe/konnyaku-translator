@@ -2,7 +2,7 @@ import { isTauri } from '@tauri-apps/api/core';
 import { LazyStore } from '@tauri-apps/plugin-store';
 
 const STORE_PATH = 'secure.store';
-const store = isTauri() ? new LazyStore(STORE_PATH, { autoSave: true }) : null;
+const store = isTauri() ? new LazyStore(STORE_PATH, { autoSave: true, defaults: {} }) : null;
 let initPromise: Promise<void> | null = null;
 
 const ensureStore = async () => {

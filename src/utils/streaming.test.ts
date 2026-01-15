@@ -1,3 +1,4 @@
+import { describe, it, expect } from 'vitest';
 import { parseSseChunk } from './streaming';
 
 describe('parseSseChunk', () => {

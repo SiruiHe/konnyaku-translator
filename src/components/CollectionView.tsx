@@ -3,6 +3,8 @@ import {
     DndContext,
     DragOverlay,
     PointerSensor,
+    DragStartEvent,
+    DragEndEvent,
     closestCenter,
     useSensor,
     useSensors,
@@ -47,7 +49,7 @@ const SortableItem: React.FC<SortableItemProps> = ({
     onDelete,
     onTogglePin,
 }) => {
-    const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, transition, isDragging } =
+    const { attributes, listeners, setNodeRef, setActivatorNodeRef, transform, isDragging } =
         useSortable({ id: item.id });
 
     const style: React.CSSProperties = {
@@ -243,14 +245,16 @@ const CollectionView: React.FC<Props> = ({ onRecycle }) => {
         });
     };
 
-    const handleDragStart = (event: { active: { id: string | number; rect: { current: { initial?: { width: number; height: number } } } } }) => {
+    const handleDragStart = (event: DragStartEvent) => {
         const nextId = Number(event.active.id);
         setActiveId(nextId);
         const initialRect = event.active.rect.current?.initial;
-        activeRectRef.current = initialRect ? { width: initialRect.width, height: initialRect.height } : null;
+        activeRectRef.current = initialRect
+            ? { width: initialRect.width, height: initialRect.height }
+            : null;
     };
 
-    const handleDragEnd = (event: { active: { id: string | number }; over: { id: string | number } | null }) => {
+    const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
         setActiveId(null);
         activeRectRef.current = null;

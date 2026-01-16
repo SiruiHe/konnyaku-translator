@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.2
+
+- Fix clipboard shortcuts (copy/paste/cut/select-all) in the input editor
+- Make status bar icon more visible on macOS
+- Avoid macOS dock toggle conflicts by skipping taskbar calls
+
 ## v0.1.1
 
 - Fix model selection to match UI, add gpt-4.1-mini, remove gpt-5.2-chat-latest

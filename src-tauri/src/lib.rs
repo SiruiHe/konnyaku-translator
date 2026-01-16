@@ -34,7 +34,9 @@ fn set_status_icon_visibility(app: tauri::AppHandle, visible: bool) -> Result<()
                 return Ok(());
             }
 
-            let mut builder = TrayIconBuilder::with_id(TRAY_ID).tooltip("Konnyaku Translator");
+            let mut builder = TrayIconBuilder::with_id(TRAY_ID)
+                .tooltip("Konnyaku Translator")
+                .icon_as_template(true);
             if let Some(icon) = app.default_window_icon().cloned() {
                 builder = builder.icon(icon);
             }

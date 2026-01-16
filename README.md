@@ -4,6 +4,10 @@ A desktop translator with a dictionary-style mode, streaming output, and built-i
 
 The name comes from Doraemon's "翻译魔芋" (Japanese: hon'yaku konnyaku).
 
+## Screenshot
+
+![Konnyaku Translator UI](docs/images/konnyaku-ui.png)
+
 ## Features
 
 - Translation mode + dictionary mode (auto switch for phrases)

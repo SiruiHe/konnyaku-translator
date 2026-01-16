@@ -11,11 +11,7 @@ The name comes from Doraemon's "翻译魔芋" (Japanese: hon'yaku konnyaku).
 ## Install (macOS)
 
 If macOS shows “app is damaged”, it is Gatekeeper blocking an unsigned build.
-You can either:
-
-- Right-click the app → Open (once), or
-- System Settings → Privacy & Security → Open Anyway, or
-- Remove quarantine:
+Remove quarantine:
 
 ```bash
 sudo xattr -dr com.apple.quarantine "/Applications/Konnyaku Translator.app"

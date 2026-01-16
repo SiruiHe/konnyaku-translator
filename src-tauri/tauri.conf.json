@@ -18,7 +18,6 @@
         "minWidth": 800,
         "minHeight": 500,
         "resizable": true,
-        "icon": "icons/icon.png",
         "center": true
       }
     ],

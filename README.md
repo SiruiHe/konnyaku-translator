@@ -8,15 +8,6 @@ The name comes from Doraemon's "翻译魔芋" (Japanese: hon'yaku konnyaku).
 
 ![Konnyaku Translator UI](docs/images/konnyaku-ui.png)
 
-## Install (macOS)
-
-If macOS shows “app is damaged”, it is Gatekeeper blocking an unsigned build.
-Remove quarantine:
-
-```bash
-sudo xattr -d com.apple.quarantine "/Applications/Konnyaku Translator.app"
-```
-
 ## Features
 
 - Translation mode + dictionary mode (auto switch for phrases)
@@ -33,6 +24,15 @@ Tested on macOS (Apple Silicon). Windows builds are provided but not tested.
 ```bash
 npm install
 npm run tauri dev
+```
+
+### macOS Gatekeeper note
+
+If macOS shows “app is damaged”, it is Gatekeeper blocking an unsigned build.
+Remove quarantine:
+
+```bash
+sudo xattr -d com.apple.quarantine "/Applications/Konnyaku Translator.app"
 ```
 
 ## API keys

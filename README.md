@@ -14,7 +14,7 @@ If macOS shows “app is damaged”, it is Gatekeeper blocking an unsigned build
 Remove quarantine:
 
 ```bash
-sudo xattr -dr com.apple.quarantine "/Applications/Konnyaku Translator.app"
+sudo xattr -d com.apple.quarantine "/Applications/Konnyaku Translator.app"
 ```
 
 ## Features

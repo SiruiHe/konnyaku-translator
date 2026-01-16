@@ -48,6 +48,7 @@ jobs:
         id: changelog
         env:
           RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        shell: bash
         run: |
           python - <<'PY'
           import os
@@ -74,7 +75,7 @@ jobs:
             delimiter = "CHANGELOG_END_1"
 
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
-            fh.write(f"body<<{delimiter}\\n{body}\\n{delimiter}\\n")
+            fh.write(f"body<<{delimiter}\n{body}\n{delimiter}\n")
           PY
 
       - name: Build and release

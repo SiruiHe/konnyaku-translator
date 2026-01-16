@@ -14,6 +14,9 @@ The name comes from Doraemon's "翻译魔芋" (Japanese: hon'yaku konnyaku).
 
 ## Run locally
 
+For most users, download the latest release from GitHub instead of building locally.
+Tested on macOS (Apple Silicon). Windows builds are provided but not tested.
+
 ```bash
 npm install
 npm run tauri dev

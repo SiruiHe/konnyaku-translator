@@ -14,7 +14,7 @@ The name comes from Doraemon's "翻译魔芋" (Japanese: hon'yaku konnyaku).
 
 ## Run locally
 
-For most users, download the latest release from GitHub instead of building locally.
+For most users, download the latest release from [GitHub Releases](https://github.com/SiruiHe/konnyaku-translator/releases) instead of building locally.
 Tested on macOS (Apple Silicon). Windows builds are provided but not tested.
 
 ```bash

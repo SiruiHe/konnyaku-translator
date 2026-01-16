@@ -40,6 +40,35 @@ jobs:
       - name: Rust cache
         uses: Swatinem/rust-cache@v2
 
+      - name: Extract changelog
+        id: changelog
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os
+          import re
+
+          tag = os.environ.get("RELEASE_TAG", "").strip()
+          version = tag.lstrip("v")
+          with open("CHANGELOG.md", "r", encoding="utf-8") as f:
+            text = f.read()
+
+          pattern = re.compile(rf"^##\\s+v?{re.escape(version)}\\s*$", re.M)
+          match = pattern.search(text)
+          body = "See CHANGELOG.md for details."
+          if match:
+            start = match.end()
+            next_match = re.search(r"^##\\s+", text[start:], re.M)
+            section = text[start:start + (next_match.start() if next_match else len(text) - start)].strip()
+            if section:
+              heading = tag if tag else f"v{version}"
+              body = f"## {heading}\\n\\n{section}"
+
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            fh.write(f"body<<EOF\\n{body}\\nEOF\\n")
+          PY
+
       - name: Build and release
         uses: tauri-apps/tauri-action@v0
         env:
@@ -47,7 +76,7 @@ jobs:
         with:
           tagName: ${{ inputs.tag || github.ref_name }}
           releaseName: "Konnyaku Translator ${{ inputs.tag || github.ref_name }}"
-          releaseBody: "See CHANGELOG.md for details."
+          releaseBody: ${{ steps.changelog.outputs.body }}
           releaseDraft: false
           prerelease: false
           updaterJsonPreferNsis: true

@@ -12,7 +12,7 @@ import { OpenAIProvider } from './services/OpenAIProvider';
 import { ProcessorResult } from './services/ILLMProvider';
 import { stopAllAudio } from './utils/audio';
 import { loadCollectionItems, saveCollectionItems, trimCollectionItems } from './utils/collection';
-import { applyAppVisibility, applyAutostart, applyGlobalShortcut } from './utils/appShell';
+import { applyAppVisibility, applyAutostart, applyDevtools, applyGlobalShortcut } from './utils/appShell';
 
 const geminiProvider = new GeminiProvider('gemini-3-flash-preview', 'Gemini 3 Flash', '');
 
@@ -99,10 +99,12 @@ function App() {
       const globalShortcut = localStorage.getItem('global_shortcut') || 'CommandOrControl+Shift+L';
       const autoStartEnabled = (localStorage.getItem('auto_start_enabled') ?? 'false') === 'true';
       const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'true') === 'true';
+      const devtoolsEnabled = (localStorage.getItem('devtools_enabled') ?? 'false') === 'true';
       closeOnExitRef.current = closeOnExit;
       applyAppVisibility(showDockIcon, showStatusIcon);
       applyGlobalShortcut(globalShortcut);
       applyAutostart(autoStartEnabled);
+      applyDevtools(devtoolsEnabled);
     };
 
     applySettings();

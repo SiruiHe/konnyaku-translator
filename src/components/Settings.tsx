@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { applyAppVisibility, applyAutostart, applyGlobalShortcut } from '../utils/appShell';
+import { applyAppVisibility, applyAutostart, applyDevtools, applyGlobalShortcut } from '../utils/appShell';
 import { getSecureValue, setSecureValue } from '../utils/secureStore';
 
 interface SettingsProps {
@@ -20,6 +20,7 @@ interface SettingsData {
     globalShortcut: string;
     autoStartEnabled: boolean;
     closeOnExit: boolean;
+    devtoolsEnabled: boolean;
     customPromptsEnabled: boolean;
     phrasePrompt: string;
     sentencePrompt: string;
@@ -84,6 +85,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
         globalShortcut: 'CommandOrControl+Shift+L',
         autoStartEnabled: false,
         closeOnExit: true,
+        devtoolsEnabled: false,
         customPromptsEnabled: false,
         phrasePrompt: DEFAULT_PHRASE_PROMPT,
         sentencePrompt: DEFAULT_SENTENCE_PROMPT,
@@ -112,6 +114,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                 const globalShortcut = localStorage.getItem('global_shortcut') || 'CommandOrControl+Shift+L';
                 const autoStartEnabled = (localStorage.getItem('auto_start_enabled') ?? 'false') === 'true';
                 const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'true') === 'true';
+                const devtoolsEnabled = (localStorage.getItem('devtools_enabled') ?? 'false') === 'true';
 
                 const customPromptsStr = localStorage.getItem('custom_prompts');
                 const customPrompts = customPromptsStr ? JSON.parse(customPromptsStr) : {};
@@ -121,7 +124,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                     geminiApiKey: geminiKey,
                     openaiApiKey: openaiKey,
                     selectedGeminiModel: geminiModel,
-                    selectedOpenAIModel: ['gpt-5.2', 'gpt-5.2-chat-latest', 'gpt-5-mini'].includes(openaiModel)
+                    selectedOpenAIModel: ['gpt-5.2', 'gpt-5-mini', 'gpt-4.1-mini'].includes(openaiModel)
                         ? openaiModel
                         : 'gpt-5.2',
                     geminiThinkingLevel,
@@ -132,6 +135,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                     globalShortcut,
                     autoStartEnabled,
                     closeOnExit,
+                    devtoolsEnabled,
                     customPromptsEnabled: customPrompts.enabled || false,
                     phrasePrompt: customPrompts.phrase_prompt || preset.phrasePrompt,
                     sentencePrompt: customPrompts.sentence_prompt || preset.sentencePrompt,
@@ -163,6 +167,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
             localStorage.setItem('global_shortcut', settings.globalShortcut.trim());
             localStorage.setItem('auto_start_enabled', String(settings.autoStartEnabled));
             localStorage.setItem('close_on_exit', String(settings.closeOnExit));
+            localStorage.setItem('devtools_enabled', String(settings.devtoolsEnabled));
 
             localStorage.setItem('custom_prompts', JSON.stringify({
                 enabled: settings.customPromptsEnabled,
@@ -176,6 +181,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
             await applyAppVisibility(settings.showDockIcon, settings.showStatusIcon);
             await applyGlobalShortcut(settings.globalShortcut);
             await applyAutostart(settings.autoStartEnabled);
+            await applyDevtools(settings.devtoolsEnabled);
 
             alert('Settings saved successfully!');
             onClose();
@@ -342,6 +348,15 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                                             className="w-4 h-4 text-purple-600 rounded"
                                         />
                                     </label>
+                                    <label className="flex items-center justify-between gap-4 text-sm text-gray-700 dark:text-gray-300">
+                                        <span>Enable DevTools</span>
+                                        <input
+                                            type="checkbox"
+                                            checked={settings.devtoolsEnabled}
+                                            onChange={(e) => setSettings(prev => ({ ...prev, devtoolsEnabled: e.target.checked }))}
+                                            className="w-4 h-4 text-purple-600 rounded"
+                                        />
+                                    </label>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                                             Global Shortcut (show app)
@@ -476,8 +491,8 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                                         >
                                             <option value="gpt-5.2">gpt-5.2</option>
-                                            <option value="gpt-5.2-chat-latest">gpt-5.2-chat-latest</option>
                                             <option value="gpt-5-mini">gpt-5-mini</option>
+                                            <option value="gpt-4.1-mini">gpt-4.1-mini</option>
                                         </select>
                                     </div>
                                     <div>

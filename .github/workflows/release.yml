@@ -50,3 +50,5 @@ jobs:
           releaseBody: "See CHANGELOG.md for details."
           releaseDraft: false
           prerelease: false
+          updaterJsonPreferNsis: true
+          args: "--bundles dmg,app,nsis"

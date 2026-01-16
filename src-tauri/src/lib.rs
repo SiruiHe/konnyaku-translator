@@ -66,6 +66,23 @@ fn quit_app(app: tauri::AppHandle) {
     app.exit(0);
 }
 
+#[tauri::command]
+fn set_devtools(app: tauri::AppHandle, enabled: bool) -> Result<(), String> {
+    #[cfg(any(debug_assertions, feature = "devtools"))]
+    {
+        if let Some(window) = app.get_webview_window("main") {
+            if enabled {
+                window.open_devtools();
+            } else {
+                window.close_devtools();
+            }
+        }
+    }
+    let _ = app;
+    let _ = enabled;
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -120,6 +137,7 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             greet,
             quit_app,
+            set_devtools,
             set_dock_icon_visibility,
             set_status_icon_visibility
         ])

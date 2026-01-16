@@ -44,3 +44,12 @@ export const applyAutostart = async (enabled: boolean) => {
         console.warn('[AppShell] Failed to apply autostart', error);
     }
 };
+
+export const applyDevtools = async (enabled: boolean) => {
+    if (!isTauri()) return;
+    try {
+        await invoke('set_devtools', { enabled });
+    } catch (error) {
+        console.warn('[AppShell] Failed to toggle devtools', error);
+    }
+};

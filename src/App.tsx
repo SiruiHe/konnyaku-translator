@@ -97,8 +97,8 @@ function App() {
       const autoStartEnabled = (localStorage.getItem('auto_start_enabled') ?? 'false') === 'true';
       const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'false') === 'true';
       const devtoolsEnabled = (localStorage.getItem('devtools_enabled') ?? 'false') === 'true';
-      applyAppVisibility(showDockIcon, showStatusIcon);
       applyGlobalShortcut(globalShortcut);
+      applyAppVisibility(showDockIcon, showStatusIcon);
       applyAutostart(autoStartEnabled);
       applyCloseOnExit(closeOnExit);
       applyDevtools(devtoolsEnabled);

@@ -1,6 +1,7 @@
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 use std::sync::atomic::{AtomicBool, Ordering};
 use tauri::Manager;
+use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
 
 struct CloseOnExitState(AtomicBool);
 
@@ -124,6 +125,28 @@ fn set_close_on_exit(state: tauri::State<CloseOnExitState>, enabled: bool) {
 }
 
 #[tauri::command]
+fn set_global_shortcut(app: tauri::AppHandle, shortcut: String) -> Result<(), String> {
+    let shortcut = shortcut.trim().to_string();
+    let manager = app.global_shortcut();
+    manager.unregister_all().map_err(|e| e.to_string())?;
+    if shortcut.is_empty() {
+        return Ok(());
+    }
+    manager
+        .on_shortcut(shortcut.as_str(), |app, _shortcut, event| {
+            if event.state != ShortcutState::Pressed {
+                return;
+            }
+            if let Some(window) = app.get_webview_window("main") {
+                let _ = window.show();
+                let _ = window.set_focus();
+            }
+        })
+        .map_err(|e| e.to_string())?;
+    Ok(())
+}
+
+#[tauri::command]
 fn set_devtools(app: tauri::AppHandle, enabled: bool) -> Result<(), String> {
     use tauri::Manager;
     if let Some(window) = app.get_webview_window("main") {
@@ -220,6 +243,7 @@ pub fn run() {
             greet,
             quit_app,
             set_close_on_exit,
+            set_global_shortcut,
             set_devtools,
             set_dock_icon_visibility,
             set_status_icon_visibility

@@ -7,6 +7,7 @@
 - Add tray menu actions (show, hide, quit) and close-to-tray behavior
 - Default App Behavior to status-bar only on first launch
 - Fix global shortcut registration permissions
+- Register global shortcut in the backend for reliability
 
 ## v0.1.2
 

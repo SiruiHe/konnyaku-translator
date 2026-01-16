@@ -159,7 +159,21 @@ pub fn run() {
                         &PredefinedMenuItem::quit(handle, None)?,
                     ],
                 )?;
-                return Menu::with_items(handle, &[&app_menu]);
+                let edit_menu = Submenu::with_items(
+                    handle,
+                    "Edit",
+                    true,
+                    &[
+                        &PredefinedMenuItem::undo(handle, None)?,
+                        &PredefinedMenuItem::redo(handle, None)?,
+                        &PredefinedMenuItem::separator(handle)?,
+                        &PredefinedMenuItem::cut(handle, None)?,
+                        &PredefinedMenuItem::copy(handle, None)?,
+                        &PredefinedMenuItem::paste(handle, None)?,
+                        &PredefinedMenuItem::select_all(handle, None)?,
+                    ],
+                )?;
+                return Menu::with_items(handle, &[&app_menu, &edit_menu]);
             }
             #[cfg(not(target_os = "macos"))]
             {

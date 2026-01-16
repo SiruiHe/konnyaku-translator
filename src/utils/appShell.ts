@@ -64,3 +64,12 @@ export const applyDevtools = async (enabled: boolean) => {
         console.warn('[AppShell] Failed to toggle devtools', error);
     }
 };
+
+export const applyCloseOnExit = async (enabled: boolean) => {
+    if (!isTauri()) return;
+    try {
+        await invoke('set_close_on_exit', { enabled });
+    } catch (error) {
+        console.warn('[AppShell] Failed to apply close-on-exit behavior', error);
+    }
+};

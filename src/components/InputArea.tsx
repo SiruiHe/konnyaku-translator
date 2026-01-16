@@ -18,60 +18,7 @@ const InputArea: React.FC<Props> = ({ value, onChange, onTranslate, onClear, tts
     const [pasted, setPasted] = useState(false);
     const pasteTimeoutRef = useRef<number | null>(null);
 
-    const handleKeyDown = async (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-        const isModifier = e.metaKey || e.ctrlKey;
-        const key = e.key.toLowerCase();
-        const textarea = textareaRef.current;
-
-        if (isModifier && textarea && ['a', 'c', 'v', 'x'].includes(key)) {
-            const start = textarea.selectionStart ?? 0;
-            const end = textarea.selectionEnd ?? 0;
-            const hasSelection = start !== end;
-
-            if (key === 'a') {
-                e.preventDefault();
-                textarea.select();
-                return;
-            }
-
-            if (key === 'c' || key === 'x') {
-                e.preventDefault();
-                const selected = textarea.value.slice(start, end);
-                if (selected) {
-                    try {
-                        await navigator.clipboard.writeText(selected);
-                    } catch (err) {
-                        console.error('Failed to write clipboard', err);
-                    }
-                }
-                if (key === 'x' && hasSelection) {
-                    const nextValue = textarea.value.slice(0, start) + textarea.value.slice(end);
-                    onChange(nextValue);
-                    requestAnimationFrame(() => {
-                        textarea.setSelectionRange(start, start);
-                    });
-                }
-                return;
-            }
-
-            if (key === 'v') {
-                e.preventDefault();
-                try {
-                    const text = await navigator.clipboard.readText();
-                    if (!text) return;
-                    const nextValue = textarea.value.slice(0, start) + text + textarea.value.slice(end);
-                    onChange(nextValue);
-                    requestAnimationFrame(() => {
-                        const cursor = start + text.length;
-                        textarea.setSelectionRange(cursor, cursor);
-                    });
-                } catch (err) {
-                    console.error('Failed to read clipboard', err);
-                }
-                return;
-            }
-        }
-
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === 'Enter' && !e.shiftKey) {
             e.preventDefault();
             onTranslate && onTranslate();
@@ -89,21 +36,29 @@ const InputArea: React.FC<Props> = ({ value, onChange, onTranslate, onClear, tts
         };
     }, []);
 
+    const flashPasted = () => {
+        setPasted(true);
+        if (pasteTimeoutRef.current) {
+            window.clearTimeout(pasteTimeoutRef.current);
+        }
+        pasteTimeoutRef.current = window.setTimeout(() => {
+            setPasted(false);
+            pasteTimeoutRef.current = null;
+        }, 900);
+    };
+
     const handlePaste = async () => {
         try {
             const text = await navigator.clipboard.readText();
             onChange(text);
-            setPasted(true);
-            if (pasteTimeoutRef.current) {
-                window.clearTimeout(pasteTimeoutRef.current);
-            }
-            pasteTimeoutRef.current = window.setTimeout(() => {
-                setPasted(false);
-                pasteTimeoutRef.current = null;
-            }, 900);
+            flashPasted();
         } catch (err) {
             console.error('Failed to read clipboard', err);
         }
+    };
+
+    const handlePasteEvent = () => {
+        flashPasted();
     };
 
     const handleSpeak = async () => {
@@ -171,6 +126,7 @@ const InputArea: React.FC<Props> = ({ value, onChange, onTranslate, onClear, tts
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 onKeyDown={handleKeyDown}
+                onPaste={handlePasteEvent}
                 placeholder="Type something..."
                 spellCheck={false}
             />

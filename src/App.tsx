@@ -1,6 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { invoke, isTauri } from '@tauri-apps/api/core';
-import { getCurrentWindow } from '@tauri-apps/api/window';
 import './App.css';
 import Header from './components/Header';
 import InputArea from './components/InputArea';
@@ -12,7 +10,7 @@ import { OpenAIProvider } from './services/OpenAIProvider';
 import { ProcessorResult } from './services/ILLMProvider';
 import { stopAllAudio } from './utils/audio';
 import { loadCollectionItems, saveCollectionItems, trimCollectionItems } from './utils/collection';
-import { applyAppVisibility, applyAutostart, applyDevtools, applyGlobalShortcut } from './utils/appShell';
+import { applyAppVisibility, applyAutostart, applyCloseOnExit, applyDevtools, applyGlobalShortcut } from './utils/appShell';
 
 const geminiProvider = new GeminiProvider('gemini-3-flash-preview', 'Gemini 3 Flash', '');
 
@@ -54,7 +52,6 @@ function App() {
   const [isSaved, setIsSaved] = useState(false);
   const translateAbortRef = useRef<AbortController | null>(null);
   const translateRequestIdRef = useRef(0);
-  const closeOnExitRef = useRef(true);
 
   const buildSaveKey = (item: ProcessorResult): string => {
     if (item.type === 'dictionary') {
@@ -100,10 +97,10 @@ function App() {
       const autoStartEnabled = (localStorage.getItem('auto_start_enabled') ?? 'false') === 'true';
       const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'true') === 'true';
       const devtoolsEnabled = (localStorage.getItem('devtools_enabled') ?? 'false') === 'true';
-      closeOnExitRef.current = closeOnExit;
       applyAppVisibility(showDockIcon, showStatusIcon);
       applyGlobalShortcut(globalShortcut);
       applyAutostart(autoStartEnabled);
+      applyCloseOnExit(closeOnExit);
       applyDevtools(devtoolsEnabled);
     };
 
@@ -111,27 +108,6 @@ function App() {
     const onSettingsUpdated = () => applySettings();
     window.addEventListener('settings-updated', onSettingsUpdated);
     return () => window.removeEventListener('settings-updated', onSettingsUpdated);
-  }, []);
-
-  useEffect(() => {
-    if (!isTauri()) return;
-    const window = getCurrentWindow();
-    let unlisten: (() => void) | null = null;
-
-    window.onCloseRequested((event) => {
-      event.preventDefault();
-      if (closeOnExitRef.current) {
-        void invoke('quit_app');
-        return;
-      }
-      window.hide().catch(() => {});
-    }).then((remove) => {
-      unlisten = remove;
-    }).catch(() => {});
-
-    return () => {
-      if (unlisten) unlisten();
-    };
   }, []);
 
   const handleTranslate = async () => {

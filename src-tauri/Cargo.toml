@@ -1,6 +1,6 @@
 [package]
 name = "konnyaku-translator"
-version = "0.1.2"
+version = "0.1.3"
 description = "A Tauri App"
 authors = ["Sirui He <hesirui00@outlook.com> (NUS)"]
 edition = "2021"

@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.1.3
+
+- Restore native Cmd/Ctrl copy/paste behavior in the input editor
+- Highlight paste feedback for keyboard and button pastes
+- Add tray menu actions (show, hide, quit) and close-to-tray behavior
+
 ## v0.1.2
 
 - Fix clipboard shortcuts (copy/paste/cut/select-all) in the input editor

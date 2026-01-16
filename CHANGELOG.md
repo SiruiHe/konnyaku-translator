@@ -6,6 +6,7 @@
 - Highlight paste feedback for keyboard and button pastes
 - Add tray menu actions (show, hide, quit) and close-to-tray behavior
 - Default App Behavior to status-bar only on first launch
+- Fix global shortcut registration permissions
 
 ## v0.1.2
 

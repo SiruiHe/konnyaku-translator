@@ -10,7 +10,8 @@
     "opener:default",
     "websocket:default",
     "window-state:default",
-    "global-shortcut:default",
+    "global-shortcut:allow-register",
+    "global-shortcut:allow-unregister-all",
     "autostart:default",
     "store:default",
     {

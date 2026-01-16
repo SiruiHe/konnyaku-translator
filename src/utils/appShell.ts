@@ -1,5 +1,4 @@
 import { invoke, isTauri } from '@tauri-apps/api/core';
-import { platform } from '@tauri-apps/api/os';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { enable as enableAutostart, disable as disableAutostart } from '@tauri-apps/plugin-autostart';
 import { register, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
@@ -8,8 +7,7 @@ export const applyAppVisibility = async (showDockIcon: boolean, showStatusIcon: 
     if (!isTauri()) return;
     const window = getCurrentWindow();
     try {
-        const osName = await platform().catch(() => '');
-        const isMac = osName === 'macos' || osName === 'darwin';
+        const isMac = /mac/i.test(navigator.platform || navigator.userAgent);
         if (!isMac) {
             await window.setSkipTaskbar(!showDockIcon);
         }

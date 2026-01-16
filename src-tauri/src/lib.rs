@@ -68,18 +68,14 @@ fn quit_app(app: tauri::AppHandle) {
 
 #[tauri::command]
 fn set_devtools(app: tauri::AppHandle, enabled: bool) -> Result<(), String> {
-    #[cfg(any(debug_assertions, feature = "devtools"))]
-    {
-        if let Some(window) = app.get_webview_window("main") {
-            if enabled {
-                window.open_devtools();
-            } else {
-                window.close_devtools();
-            }
+    use tauri::Manager;
+    if let Some(window) = app.get_webview_window("main") {
+        if enabled {
+            window.open_devtools();
+        } else {
+            window.close_devtools();
         }
     }
-    let _ = app;
-    let _ = enabled;
     Ok(())
 }
 

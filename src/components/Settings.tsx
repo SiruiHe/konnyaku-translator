@@ -75,7 +75,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
         geminiApiKey: '',
         openaiApiKey: '',
         selectedGeminiModel: 'gemini-3-flash-preview',
-        selectedOpenAIModel: 'gpt-4o-2024-11-20',
+        selectedOpenAIModel: 'gpt-5.2',
         geminiThinkingLevel: 'auto',
         openaiReasoningEffort: 'auto',
         promptPreset: 'general',
@@ -103,7 +103,7 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                     getSecureValue('openai_api_key'),
                 ]);
                 const geminiModel = localStorage.getItem('selected_gemini_model') || 'gemini-3-flash-preview';
-                const openaiModel = localStorage.getItem('selected_openai_model') || 'gpt-4o-2024-11-20';
+                const openaiModel = localStorage.getItem('selected_openai_model') || 'gpt-5.2';
                 const geminiThinkingLevel = localStorage.getItem('gemini_thinking_level') || 'auto';
                 const openaiReasoningEffort = localStorage.getItem('openai_reasoning_effort') || 'auto';
                 const promptPreset = localStorage.getItem('prompt_preset') || 'general';
@@ -121,7 +121,9 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                     geminiApiKey: geminiKey,
                     openaiApiKey: openaiKey,
                     selectedGeminiModel: geminiModel,
-                    selectedOpenAIModel: openaiModel,
+                    selectedOpenAIModel: ['gpt-5.2', 'gpt-5.2-chat-latest', 'gpt-5-mini'].includes(openaiModel)
+                        ? openaiModel
+                        : 'gpt-5.2',
                     geminiThinkingLevel,
                     openaiReasoningEffort,
                     promptPreset,

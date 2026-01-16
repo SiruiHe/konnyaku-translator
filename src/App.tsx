@@ -17,7 +17,7 @@ import { applyAppVisibility, applyAutostart, applyGlobalShortcut } from './utils
 const geminiProvider = new GeminiProvider('gemini-3-flash-preview', 'Gemini 3 Flash', '');
 
 // Export so components can import for TTS
-export const openaiProvider = new OpenAIProvider('gpt-4o-2024-11-20', 'GPT-5.2', '');
+export const openaiProvider = new OpenAIProvider('gpt-5.2', 'GPT-5.2', '');
 
 function App() {
   const [activeProviderName, setActiveProviderName] = useState<'gemini' | 'openai'>(() => {

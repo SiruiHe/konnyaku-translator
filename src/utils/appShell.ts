@@ -6,6 +6,8 @@ import { register, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
 export const applyAppVisibility = async (showDockIcon: boolean, showStatusIcon: boolean) => {
     if (!isTauri()) return;
     try {
+        const window = getCurrentWindow();
+        await window.setSkipTaskbar(!showDockIcon);
         await invoke('set_dock_icon_visibility', { visible: showDockIcon });
         await invoke('set_status_icon_visibility', { visible: showStatusIcon });
     } catch (error) {

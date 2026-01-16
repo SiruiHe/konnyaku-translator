@@ -257,8 +257,7 @@ Return ONLY the translated text. Do not wrap in JSON or markdown.`;
                     'Authorization': `Bearer ${apiKey}`
                 },
                 body: JSON.stringify({
-                    // User requested specific model name 'gpt-4o-mini-tts'
-                    model: "tts-1",
+                    model: "gpt-4o-mini-tts",
                     input: text,
                     voice: "nova"
                 })

@@ -14,6 +14,7 @@ If macOS shows “app is damaged”, it is Gatekeeper blocking an unsigned build
 You can either:
 
 - Right-click the app → Open (once), or
+- System Settings → Privacy & Security → Open Anyway, or
 - Remove quarantine:
 
 ```bash

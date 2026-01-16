@@ -5,13 +5,21 @@ import { register, unregisterAll } from '@tauri-apps/plugin-global-shortcut';
 
 export const applyAppVisibility = async (showDockIcon: boolean, showStatusIcon: boolean) => {
     if (!isTauri()) return;
+    const window = getCurrentWindow();
     try {
-        const window = getCurrentWindow();
         await window.setSkipTaskbar(!showDockIcon);
+    } catch (error) {
+        console.warn('[AppShell] Failed to toggle dock/taskbar visibility', error);
+    }
+    try {
         await invoke('set_dock_icon_visibility', { visible: showDockIcon });
+    } catch (error) {
+        console.warn('[AppShell] Failed to toggle dock icon visibility', error);
+    }
+    try {
         await invoke('set_status_icon_visibility', { visible: showStatusIcon });
     } catch (error) {
-        console.warn('[AppShell] Failed to apply visibility settings', error);
+        console.warn('[AppShell] Failed to toggle status icon visibility', error);
     }
 };
 

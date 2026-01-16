@@ -5,6 +5,7 @@
 - Restore native Cmd/Ctrl copy/paste behavior in the input editor
 - Highlight paste feedback for keyboard and button pastes
 - Add tray menu actions (show, hide, quit) and close-to-tray behavior
+- Default App Behavior to status-bar only on first launch
 
 ## v0.1.2
 

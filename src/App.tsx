@@ -91,11 +91,11 @@ function App() {
 
   useEffect(() => {
     const applySettings = () => {
-      const showDockIcon = (localStorage.getItem('show_dock_icon') ?? 'true') === 'true';
+      const showDockIcon = (localStorage.getItem('show_dock_icon') ?? 'false') === 'true';
       const showStatusIcon = (localStorage.getItem('show_status_icon') ?? 'true') === 'true';
       const globalShortcut = localStorage.getItem('global_shortcut') || 'CommandOrControl+Shift+L';
       const autoStartEnabled = (localStorage.getItem('auto_start_enabled') ?? 'false') === 'true';
-      const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'true') === 'true';
+      const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'false') === 'true';
       const devtoolsEnabled = (localStorage.getItem('devtools_enabled') ?? 'false') === 'true';
       applyAppVisibility(showDockIcon, showStatusIcon);
       applyGlobalShortcut(globalShortcut);

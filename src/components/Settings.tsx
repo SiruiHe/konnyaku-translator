@@ -80,11 +80,11 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
         geminiThinkingLevel: 'auto',
         openaiReasoningEffort: 'auto',
         promptPreset: 'general',
-        showDockIcon: true,
+        showDockIcon: false,
         showStatusIcon: true,
         globalShortcut: 'CommandOrControl+Shift+L',
         autoStartEnabled: false,
-        closeOnExit: true,
+        closeOnExit: false,
         devtoolsEnabled: false,
         customPromptsEnabled: false,
         phrasePrompt: DEFAULT_PHRASE_PROMPT,
@@ -109,11 +109,11 @@ const Settings: React.FC<SettingsProps> = ({ isOpen, onClose }) => {
                 const geminiThinkingLevel = localStorage.getItem('gemini_thinking_level') || 'auto';
                 const openaiReasoningEffort = localStorage.getItem('openai_reasoning_effort') || 'auto';
                 const promptPreset = localStorage.getItem('prompt_preset') || 'general';
-                const showDockIcon = (localStorage.getItem('show_dock_icon') ?? 'true') === 'true';
+                const showDockIcon = (localStorage.getItem('show_dock_icon') ?? 'false') === 'true';
                 const showStatusIcon = (localStorage.getItem('show_status_icon') ?? 'true') === 'true';
                 const globalShortcut = localStorage.getItem('global_shortcut') || 'CommandOrControl+Shift+L';
                 const autoStartEnabled = (localStorage.getItem('auto_start_enabled') ?? 'false') === 'true';
-                const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'true') === 'true';
+                const closeOnExit = (localStorage.getItem('close_on_exit') ?? 'false') === 'true';
                 const devtoolsEnabled = (localStorage.getItem('devtools_enabled') ?? 'false') === 'true';
 
                 const customPromptsStr = localStorage.getItem('custom_prompts');
